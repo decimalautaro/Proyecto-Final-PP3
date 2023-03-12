@@ -1,11 +1,10 @@
-
 //RUTAS DE AUTH
 export const PROFESOR_PATH = {
-
     params: {
-        id: 'id',
+      id: 'id',
     },
     path: ':id',
-
+  
     root: 'profesores',
-};
+  };
+  
