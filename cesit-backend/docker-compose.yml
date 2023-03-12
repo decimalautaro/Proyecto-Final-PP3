@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    container_name: db
+    image: mongo:5
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGODB_DATABASE: cesit-backend
+    volumes:
+      - my-db:/data/db
+  
+  server:
+    container_name: server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    depends_on:
+      - db
+    env_file: .env
+    ports:
+      - "${PORT}:${PORT}"
+    links:
+      - "db:database"
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    command: [ 'npm', 'run', 'start:dev' ]
+
+# Names our volume
+volumes:
+  my-db:

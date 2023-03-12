@@ -1,0 +1,3247 @@
+{
+	"info": {
+		"_postman_id": "a01d98af-1a99-4dfe-bb02-291eaf0b413a",
+		"name": "Cesit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22999191"
+	},
+	"item": [
+		{
+			"name": "Tareas",
+			"item": [
+				{
+					"name": "Get Tareas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tarea obtenida con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaDelPaginador\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tareas",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tareas"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "descripcion",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "_type",
+									"value": "or",
+									"disabled": true
+								},
+								{
+									"key": "_limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "_offset",
+									"value": "0",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Tareas",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/tareas",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"tareas"
+									],
+									"query": [
+										{
+											"key": "nombre",
+											"value": "2",
+											"disabled": true
+										},
+										{
+											"key": "descripcion",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "_type",
+											"value": "or",
+											"disabled": true
+										},
+										{
+											"key": "_limit",
+											"value": "10",
+											"disabled": true
+										},
+										{
+											"key": "_offset",
+											"value": "0",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "813"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"32d-uEqHQQJstt8YbEZZqr7YAMpTEXE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 19:50:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"_id\": \"634456e9f65d187902693438\",\n            \"nombre\": \"Tarea 1\",\n            \"descripcion\": \"Descripcion tarea 1\",\n            \"finalizada\": false,\n            \"fechaLimite\": \"2022-09-17T02:38:24.000Z\",\n            \"progreso\": 95,\n            \"asignado\": \"ni idea\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"63445702f65d18790269343b\",\n            \"nombre\": \"Tarea 1\",\n            \"descripcion\": \"Descripcion tarea 1\",\n            \"finalizada\": false,\n            \"fechaLimite\": \"2022-09-17T02:38:24.000Z\",\n            \"progreso\": 95,\n            \"asignado\": \"ni idea\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"63446e35f65d187902693457\",\n            \"nombre\": \"Tarea 2\",\n            \"descripcion\": \"Descripcion tarea 2\",\n            \"finalizada\": true,\n            \"fechaLimite\": \"2022-09-17T02:38:24.000Z\",\n            \"progreso\": 10,\n            \"asignado\": \"ni idea\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"6344758df65d1879026934be\",\n            \"nombre\": \"Tarea 1\",\n            \"descripcion\": \"Descripcion tarea 1\",\n            \"finalizada\": false,\n            \"fechaLimite\": \"2022-09-17T02:38:24.000Z\",\n            \"progreso\": 95,\n            \"asignado\": \"ni idea\",\n            \"__v\": 0\n        }\n    ],\n    \"offset\": 0,\n    \"limit\": 10,\n    \"total\": 4\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Tarea by Id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tarea obtenida con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaTarea\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tareas/634456e9f65d187902693438",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tareas",
+								"634456e9f65d187902693438"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Tarea by Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/tareas/634456e9f65d187902693438",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"tareas",
+										"634456e9f65d187902693438"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "192"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c0-EC54EO//0XcQO4OXiHKpQJjekGo\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 19:51:00 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"634456e9f65d187902693438\",\n    \"nombre\": \"Tarea 1\",\n    \"descripcion\": \"Descripcion tarea 1\",\n    \"finalizada\": false,\n    \"fechaLimite\": \"2022-09-17T02:38:24.000Z\",\n    \"progreso\": 95,\n    \"asignado\": \"ni idea\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Tarea",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tarea creada con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaTarea\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Tarea 1\",\n    \"descripcion\": \"Descripcion tarea 1\",\n    \"finalizada\": false,\n    \"progreso\": 95,\n    \"fechaLimite\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\",\n    \"asignado\": \"ni idea\",\n    \"roles\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/tareas",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tareas"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Tarea",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nombre\": \"Tarea 1\",\n    \"descripcion\": \"Descripcion tarea 1\",\n    \"finalizada\": false,\n    \"progreso\": 95,\n    \"fechaLimite\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\",\n    \"asignado\": \"ni idea\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/tareas",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"tareas"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "192"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c0-lENTl7m3wmMmWIWFvBqeNKvLmvM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 19:51:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nombre\": \"Tarea 1\",\n    \"descripcion\": \"Descripcion tarea 1\",\n    \"finalizada\": false,\n    \"fechaLimite\": \"2022-09-17T02:38:24.000Z\",\n    \"progreso\": 95,\n    \"asignado\": \"ni idea\",\n    \"_id\": \"634477a9f65d1879026934f4\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Tarea",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tarea actualizada con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaTarea\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Tarea 2\",\n    \"descripcion\": \"Descripcion tarea 2\",\n    \"finalizada\": true,\n    \"progreso\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/tareas/634456e9f65d187902693438",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tareas",
+								"634456e9f65d187902693438"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Tarea",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nombre\": \"Tarea 2\",\n    \"descripcion\": \"Descripcion tarea 2\",\n    \"finalizada\": true,\n    \"progreso\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/tareas/634456e9f65d187902693438",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"tareas",
+										"634456e9f65d187902693438"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "191"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"bf-zo0Rk56FOjd6wnnE9NtwaGsK2CQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 19:51:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"634456e9f65d187902693438\",\n    \"nombre\": \"Tarea 2\",\n    \"descripcion\": \"Descripcion tarea 2\",\n    \"finalizada\": true,\n    \"fechaLimite\": \"2022-09-17T02:38:24.000Z\",\n    \"progreso\": 10,\n    \"asignado\": \"ni idea\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Tarea",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Tarea eliminada con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tareas/633f947cda9c41aed83e1e7c",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tareas",
+								"633f947cda9c41aed83e1e7c"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Tarea",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/tareas/634456e9f65d187902693438",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"tareas",
+										"634456e9f65d187902693438"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 19:51:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create Fake Data",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tareas/fake-data",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tareas",
+								"fake-data"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const schema = {",
+							"    type: 'object',",
+							"    additionalProperties: false,",
+							"    properties: {",
+							"        _id: {",
+							"        type: 'string',",
+							"        },",
+							"        nombre: {",
+							"        type: 'string',",
+							"        },",
+							"        descripcion: {",
+							"        type: 'string',",
+							"        },",
+							"        finalizada: {",
+							"        type: 'boolean',",
+							"        },",
+							"        fechaLimite: {",
+							"        type: 'string',",
+							"        format: 'date-time',",
+							"        },",
+							"        progreso: {",
+							"        type: 'integer',",
+							"        },",
+							"        asignado: {",
+							"        type: 'string',",
+							"        },",
+							"        __v: {",
+							"        type: 'integer',",
+							"        },",
+							"    },",
+							"    required: [",
+							"        '__v',",
+							"        '_id',",
+							"        'asignado',",
+							"        'descripcion',",
+							"        'fechaLimite',",
+							"        'finalizada',",
+							"        'nombre',",
+							"        'progreso',",
+							"    ],",
+							"};",
+							"pm.variables.set(\"esquemaTarea\", schema);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Auth is successfull\"] = responseCode.code === 201;",
+									"",
+									"var jsonData = pm.response.json()",
+									"pm.collectionVariables.set(\"token\", jsonData.token);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"cesit-user-1@test.com\",\n    \"password\": \"abC123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"cesit-user-1@test.com\",\n    \"password\": \"abC123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/auth/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "248"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f8-vzZyCN+UhQBcU5xNWRgXld35KXY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 Oct 2022 01:55:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"633f8493a3f9e8f65e2a1412\",\n    \"email\": \"cesit-user-1@test.com\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2Y4NDkzYTNmOWU4ZjY1ZTJhMTQxMiIsImlhdCI6MTY2NTEwNzc1NCwiZXhwIjoxNjY1MTE0OTU0fQ.edqM6OBm9xKvJXAOAMi-bRl5xp2fl4rmgeENiLaAdmk\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Login con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test(\"Usuario con email y token\", () => {",
+									"    const responseJson = pm.response.json();",
+									"    ",
+									"    pm.expect(responseJson.email).to.be.a('string');",
+									"    pm.expect(responseJson.token).to.be.a('string');",
+									"})",
+									"",
+									"const jsonData = pm.response.json()",
+									"pm.collectionVariables.set(\"token\", jsonData.token);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"cesit-user-1@test.com\",\n    \"password\": \"abC123\",\n    \"fullName\": \"User 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Register",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"cesit-user-2@test.com\",\n    \"password\": \"abC123\",\n    \"fullName\": \"User 1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/auth/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "309"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"135-k5/NUYAukAxpg07bZXlTYp0oito\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 Oct 2022 01:56:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": \"cesit-user-2@test.com\",\n    \"fullName\": \"User 1\",\n    \"isActive\": true,\n    \"roles\": [\n        \"user\"\n    ],\n    \"_id\": \"633f874ea3f9e8f65e2a142a\",\n    \"__v\": 0,\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2Y4NzRlYTNmOWU4ZjY1ZTJhMTQyYSIsImlhdCI6MTY2NTEwNzc5MCwiZXhwIjoxNjY1MTE0OTkwfQ.O9WURGn1jfWlysUMWL82wBa48aM2wk3WXssELGbSN9c\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Check auth status",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(pm.globals.get(\"token\"))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"cesit-user-1@test.com\",\n    \"password\": \"abC123\",\n    \"fullName\": \"User 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/check-auth-status",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"check-auth-status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carreras",
+			"item": [
+				{
+					"name": "Get Carrera ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Carreras obtenidas con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaDelPaginador\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/carreras/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carreras",
+								""
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "xyz",
+									"disabled": true
+								},
+								{
+									"key": "duracion",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Carrera ",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/carreras/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"carreras",
+										""
+									],
+									"query": [
+										{
+											"key": "nombre",
+											"value": "xyz",
+											"disabled": true
+										},
+										{
+											"key": "duracion",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "157"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9d-MW98KdjfL5DT5ITQQbsX5bZtuvM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 20:29:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"_id\": \"634480b94b81d6b9974c9293\",\n            \"nombre\": \"annalisis\",\n            \"duracion\": \"3\",\n            \"horario\": \"noche\",\n            \"plan\": \"pla 2019\",\n            \"__v\": 0\n        }\n    ],\n    \"offset\": 0,\n    \"limit\": 10,\n    \"total\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Carrera By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Carrera obtenida con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaCarrera\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/carreras/6340d5a5f502fc1f5a859472",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carreras",
+								"6340d5a5f502fc1f5a859472"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Carrera By Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/carreras/634480b94b81d6b9974c9293",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"carreras",
+										"634480b94b81d6b9974c9293"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "114"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"72-g980fsNoEiP/smo0IppKhUEOxow\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 20:30:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"634480b94b81d6b9974c9293\",\n    \"nombre\": \"annalisis\",\n    \"duracion\": \"3\",\n    \"horario\": \"noche\",\n    \"plan\": \"pla 2019\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Carrera",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Carrera creada con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaCarrera\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"annalisis\",\r\n    \"duracion\": \"3\",\r\n    \"horario\": \"noche\",\r\n    \"plan\": \"pla 2019\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/carreras",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carreras"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Carrera",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"annalisis\",\r\n    \"duracion\": \"3\",\r\n    \"horario\": \"noche\",\r\n    \"plan\": \"pla 2019\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/carreras",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"carreras"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "114"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"72-yciIGof2ThUhVcorj7CLH5Jv30o\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 20:29:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nombre\": \"annalisis\",\n    \"duracion\": \"3\",\n    \"horario\": \"noche\",\n    \"plan\": \"pla 2019\",\n    \"_id\": \"634480b94b81d6b9974c9293\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Carrera",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Carrera actualizada con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaCarrera\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"desarrollo de software\",\r\n    \"duracion\": \"4\",\r\n    \"horario\": \"noche\",\r\n    \"plan\": \"pla 2019\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/carreras/634480b94b81d6b9974c9293",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carreras",
+								"634480b94b81d6b9974c9293"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Carrera",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"desarrollo de software\",\r\n    \"duracion\": \"4\",\r\n    \"horario\": \"noche\",\r\n    \"plan\": \"pla 2019\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/carreras/634480b94b81d6b9974c9293",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"carreras",
+										"634480b94b81d6b9974c9293"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "127"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7f-qcIa/sUtAbqHPZNWUKN/elrOe74\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 20:30:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"634480b94b81d6b9974c9293\",\n    \"nombre\": \"desarrollo de software\",\n    \"duracion\": \"4\",\n    \"horario\": \"noche\",\n    \"plan\": \"pla 2019\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Carrera ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Carrera eliminada con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/carreras/634480b94b81d6b9974c9293",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carreras",
+								"634480b94b81d6b9974c9293"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Carrera ",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/carreras/6344812b4b81d6b9974c92a2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"carreras",
+										"6344812b4b81d6b9974c92a2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 20:31:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "faker data Carrera ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/carreras/fake-data",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carreras",
+								"fake-data"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const schema = {",
+							"    type: 'object',",
+							"    additionalProperties: false,",
+							"    properties: {",
+							"        nombre: {",
+							"            type: 'string',",
+							"        },",
+							"        duracion: {",
+							"            type: 'string',",
+							"        },",
+							"        horario: {",
+							"            type: 'string',",
+							"        },",
+							"        plan: {",
+							"            type: 'string',",
+							"        },",
+							"        _id: {",
+							"            type: 'string',",
+							"        },",
+							"        __v: {",
+							"            type: 'integer',",
+							"        },",
+							"    },",
+							"    required: ['__v', '_id', 'duracion', 'horario', 'nombre', 'plan'],",
+							"};",
+							"pm.variables.set(\"esquemaCarrera\", schema);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cursos",
+			"item": [
+				{
+					"name": "Get cursos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Cursos obtenidas con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaDelPaginador\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos",
+								""
+							],
+							"query": [
+								{
+									"key": "bedelia",
+									"value": "mercedes",
+									"disabled": true
+								},
+								{
+									"key": "carrera",
+									"value": "desa",
+									"disabled": true
+								},
+								{
+									"key": "_type",
+									"value": "and",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Curso By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Curso obtenida con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaCursos\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos/6340d8aef502fc1f5a8594a5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos",
+								"6340d8aef502fc1f5a8594a5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Curso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Curso creada con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaCursos\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"anio\": 2020,\r\n    \"cantidadAlumnos\": 32,\r\n    \"carrera\": \"analisis\",\r\n    \"bedelia\": \"mercedes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Curso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Curso actualizada con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaCursos\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"anio\": 2020,\r\n    \"cantidadAlumnos\": 32,\r\n    \"carrera\": \"desarrollo de software\",\r\n    \"bedelia\": \"mercedes lopez\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos/6340d893f502fc1f5a8594a2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos",
+								"6340d893f502fc1f5a8594a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Curso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Curso eliminada con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos/6340d893f502fc1f5a8594a2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos",
+								"6340d893f502fc1f5a8594a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "faker data Carrera ",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos/fake-data",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos",
+								"fake-data"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const schema = {",
+							"  type: 'object',",
+							"  additionalProperties: false,",
+							"  properties: {",
+							"    anio: {",
+							"      type: 'integer',",
+							"    },",
+							"    cantidadAlumnos: {",
+							"      type: 'integer',",
+							"    },",
+							"    carrera: {",
+							"      type: 'string',",
+							"    },",
+							"    bedelia: {",
+							"      type: 'string',",
+							"    },",
+							"    _id: {",
+							"      type: 'string',",
+							"    },",
+							"    __v: {",
+							"      type: 'integer',",
+							"    },",
+							"  },",
+							"  required: ['__v', '_id', 'anio', 'bedelia', 'cantidadAlumnos', 'carrera'],",
+							"};",
+							"pm.variables.set(\"esquemaCursos\", schema);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Profesores",
+			"item": [
+				{
+					"name": "Get profesores",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Profesores obtenidos con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaDelPaginador\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profesores/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profesores",
+								""
+							],
+							"query": [
+								{
+									"key": "apellido",
+									"value": "perez",
+									"disabled": true
+								},
+								{
+									"key": "dni",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "_type",
+									"value": "and",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profesor By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Profesor obtenido con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaProfesores\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profesores/6340db1ff502fc1f5a8594c7",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profesores",
+								"6340db1ff502fc1f5a8594c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Profesor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Profesor creado con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaProfesores\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Marta\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"edad\": 32\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profesores",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profesores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profesor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Profesor actualizado con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaProfesores\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Andrea\",\r\n    \"apellido\": \"cataneo\",\r\n    \"dni\": \"2222222\",\r\n    \"edad\": 32\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profesores/6340dc24f502fc1f5a8594e7",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profesores",
+								"6340dc24f502fc1f5a8594e7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Profesor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Profesor eliminado con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profesores/6340dc24f502fc1f5a8594e7",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profesores",
+								"6340dc24f502fc1f5a8594e7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "faker data Profesor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profesores/fake-data",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profesores",
+								"fake-data"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const schema = {",
+							"  type: 'object',",
+							"  additionalProperties: false,",
+							"  properties: {",
+							"    nombre: {",
+							"      type: 'string',",
+							"    },",
+							"    apellido: {",
+							"      type: 'string',",
+							"    },",
+							"    dni: {",
+							"      type: 'string',",
+							"    },",
+							"    edad: {",
+							"      type: 'integer',",
+							"    },",
+							"    _id: {",
+							"      type: 'string',",
+							"    },",
+							"    __v: {",
+							"      type: 'integer',",
+							"    },",
+							"  },",
+							"  required: ['__v', '_id', 'apellido', 'dni', 'edad', 'nombre'],",
+							"};",
+							"pm.variables.set(\"esquemaProfesores\", schema);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Alumnos",
+			"item": [
+				{
+					"name": "Get alumnos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumnos obtenidos con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaDelPaginador\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos",
+								""
+							],
+							"query": [
+								{
+									"key": "apellido",
+									"value": "perez",
+									"disabled": true
+								},
+								{
+									"key": "dni",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "_type",
+									"value": "and",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Alumno By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumno obtenido con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaAlumno\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos/6340dd0ef502fc1f5a8594f6",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos",
+								"6340dd0ef502fc1f5a8594f6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Alumno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumno creado con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaAlumno\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Marta\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"domicilio\": \"asdasd\",\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Alumno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumno actualizado con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaAlumno\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Carlita\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"domicilio\": \"asdasd\",\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos/6340de5ef502fc1f5a859526",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos",
+								"6340de5ef502fc1f5a859526"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Alumno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumno eliminado con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos/6340de1bf502fc1f5a859517",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos",
+								"6340de1bf502fc1f5a859517"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "faker data Alumno",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos/fake-data",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos",
+								"fake-data"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const schema = {",
+							"  type: 'object',",
+							"  additionalProperties: false,",
+							"  properties: {",
+							"    nombre: {",
+							"      type: 'string',",
+							"    },",
+							"    apellido: {",
+							"      type: 'string',",
+							"    },",
+							"    dni: {",
+							"      type: 'string',",
+							"    },",
+							"    domicilio: {",
+							"      type: 'string',",
+							"    },",
+							"    fechaNacimiento: {",
+							"      type: 'string',",
+							"    },",
+							"    _id: {",
+							"      type: 'string',",
+							"    },",
+							"    __v: {",
+							"      type: 'integer',",
+							"    },",
+							"  },",
+							"  required: [",
+							"    '__v',",
+							"    '_id',",
+							"    'apellido',",
+							"    'dni',",
+							"    'domicilio',",
+							"    'fechaNacimiento',",
+							"    'nombre',",
+							"  ],",
+							"};",
+							"pm.variables.set(\"esquemaAlumno\", schema);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Materias",
+			"item": [
+				{
+					"name": "Get materias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Materia obtenidas con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaDelPaginador\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias",
+								""
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "perez",
+									"disabled": true
+								},
+								{
+									"key": "profesor",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "_type",
+									"value": "and",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Materia By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Materia obtenida con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaMateria\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias/6340dfc1f502fc1f5a859539",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias",
+								"6340dfc1f502fc1f5a859539"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Materia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Materia creada con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaMateria\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"matematica\",\r\n    \"profesor\": \"perez\",\r\n    \"duracion\": \"anual\",\r\n    \"condicionMateria\": \"regular\"\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Materia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Materia actualizada con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaMateria\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"condicionMateria\": \"libre\"\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias/6340dfc1f502fc1f5a859539",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias",
+								"6340dfc1f502fc1f5a859539"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Materia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumno eliminado con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias/6340dfc1f502fc1f5a859539",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias",
+								"6340dfc1f502fc1f5a859539"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "faker data Materias",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias/fake-data",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias",
+								"fake-data"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const schema = {",
+							"  type: 'object',",
+							"  additionalProperties: false,",
+							"  properties: {",
+							"    nombre: {",
+							"      type: 'string',",
+							"    },",
+							"    profesor: {",
+							"      type: 'string',",
+							"    },",
+							"    duracion: {",
+							"      type: 'string',",
+							"    },",
+							"    condicionMateria: {",
+							"      type: 'string',",
+							"    },",
+							"    _id: {",
+							"      type: 'string',",
+							"    },",
+							"    __v: {",
+							"      type: 'integer',",
+							"    },",
+							"  },",
+							"  required: ['__v', '_id', 'condicionMateria', 'duracion', 'nombre', 'profesor'],",
+							"};",
+							"pm.variables.set(\"esquemaMateria\", schema);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const esquemaDelPaginador = {",
+					"    type: \"object\",",
+					"    properties: {",
+					"        data: {",
+					"            type: \"array\",",
+					"            items: {}",
+					"        },",
+					"        offset: {",
+					"            type: \"integer\"",
+					"        },",
+					"        limit: {",
+					"            type: \"integer\"",
+					"        },",
+					"        total: {",
+					"            type: \"integer\"",
+					"        }",
+					"    },",
+					"    required: [",
+					"        \"data\",",
+					"        \"limit\",",
+					"        \"offset\",",
+					"        \"total\",",
+					"    ],",
+					"    additionalProperties: false",
+					"};",
+					"pm.variables.set(\"esquemaDelPaginador\", esquemaDelPaginador);",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "localhost:5005/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
