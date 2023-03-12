@@ -31,7 +31,7 @@ const ProfesoresPage = () => {
   const dispatch = useAppDispatch();
   const [mostrarDialogo, setMostrarDialogo] = useState(false);
   const profesorId = useRef<string>();
-  const { cargando, profesores, mensajeError, cantidadPaginas, offset, limit } = useAppSelector(
+  const { cargando, profesores, mensajeError, cantidadPaginas, skip, limit } = useAppSelector(
     (state) => state.profesor
   );
 
@@ -47,15 +47,15 @@ const ProfesoresPage = () => {
     };
   }, []);
 
-  const handlePaginationOnChange = (ev: ChangeEvent<unknown>, offset: number) => {
-    dispatch(buscarProfesores({ offset, limit }));
+  const handlePaginationOnChange = (ev: ChangeEvent<unknown>, skip: number) => {
+    dispatch(buscarProfesores({ skip, limit }));
   }
 
   return (
     <Box display="flex" flexDirection="column" gap={3} padding={2}>
-
+      
       <Typography variant="h3">Listando Profesores</Typography>
-
+      
       <Button
         variant="contained"
         size="small"
@@ -64,8 +64,8 @@ const ProfesoresPage = () => {
       >
         Nuevo Profesor
       </Button>
-
-
+      
+      
       <BuscarProfesores />
 
       {mensajeError && (
@@ -105,20 +105,20 @@ const ProfesoresPage = () => {
                       </TableCell>
                       <TableCell align="center">
                         {profesor.apellido}
-                      </TableCell>
+                      </TableCell>                      
                       <TableCell align="center">
                         {profesor.dni}
-                      </TableCell>
+                      </TableCell>                      
                       <TableCell align="center">
                         {profesor.fechaNacimiento ? format(new Date(profesor.fechaNacimiento), DATE_FORMAT) : ''}
                       </TableCell>
                       <TableCell align="right">
-                        <TableShowBtn onClick={() => navigate(`/profesores/${profesor._id}/ver`)} />
-                        <TableEditBtn onClick={() => navigate(`/profesores/${profesor._id}/editar`)} />
-                        <TableDeleteBtn onClick={() => {
-                          profesorId.current = profesor._id;
-                          setMostrarDialogo(true);
-                        }} />
+                          <TableShowBtn onClick={() => navigate(`/profesores/${profesor._id}/ver`)} />
+                          <TableEditBtn onClick={() => navigate(`/profesores/${profesor._id}/editar`)} />
+                          <TableDeleteBtn onClick={() => {
+                            profesorId.current = profesor._id;
+                            setMostrarDialogo(true);
+                          }} />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -127,10 +127,10 @@ const ProfesoresPage = () => {
             </TableContainer>
 
             <Stack spacing={2} width="100%" alignItems="center">
-              <Pagination count={cantidadPaginas} page={offset} siblingCount={2} onChange={handlePaginationOnChange} variant="outlined" color="primary" />
+              <Pagination count={cantidadPaginas} page={skip} siblingCount={2} onChange={handlePaginationOnChange} variant="outlined" color="primary" />
             </Stack>
           </>
-
+          
         )
       )}
 

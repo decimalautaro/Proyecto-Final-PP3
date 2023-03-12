@@ -35,6 +35,11 @@ export const buscarAlumnosService = async (
 
 export const crearAlumnoService = async (data: Alumno): Promise<Alumno> => {
   try {
+
+    if (data.domicilio[0].referencia === '') {
+
+      delete data.domicilio[0].referencia
+    }
     const res = await axios.post<Alumno>(
       'http://localhost:5005/api/alumnos',
       data
@@ -60,7 +65,7 @@ export const actualizarAlumnoService = async (
   id: string,
   data: Partial<Alumno>
 ) => {
-  let body = { nombre: data.nombre, apellido : data.apellido, dni: data.dni, domicilio: data.domicilio, fechaNacimiento: data.fechaNacimiento};
+  let body = { nombre: data.nombre, apellido: data.apellido, dni: data.dni, domicilio: data.domicilio, fechaNacimiento: data.fechaNacimiento };
   try {
     const res = await axios.patch<Alumno>(
       `http://localhost:5005/api/alumnos/${id}`,

@@ -1,9 +1,7 @@
-import { Profesor } from "./Profesor";
-
 export interface Materia {
     _id?: string,
     nombre: string,
-    profesor: Profesor,
+    profesor: string,
     duracion: string,
     condicionMateria: string
 }

@@ -1,22 +1,24 @@
-import { IsIn, IsMongoId, IsString, MinLength } from 'class-validator';
-import { Profesor } from 'src/profesores/entities/profesores.entity';
+
+
+import { IsIn, IsString, MinLength } from "class-validator";
 
 export class CreateMateriaDto {
-  @IsString()
-  @MinLength(1)
-  nombre: string;
 
-  @MinLength(1)
-  @IsMongoId()
-  profesor: Profesor;
+    @IsString()
+    @MinLength(1)
+    nombre: string;
 
-  @IsString()
-  @MinLength(1)
-  @IsIn(['anual', 'semestral'])
-  duracion: string;
+    @IsString()
+    @MinLength(1)
+    profesor: string;
 
-  @IsString()
-  @MinLength(1)
-  @IsIn(['regular', 'promocion', 'libre', 'recursa'])
-  condicionMateria: string;
+    @IsString()
+    @MinLength(1)
+    duracion: string;
+
+    @IsString()
+    @MinLength(1)
+    @IsIn(['regular', 'promocion', 'libre', 'recursa'])
+    condicionMateria: string;
+
 }

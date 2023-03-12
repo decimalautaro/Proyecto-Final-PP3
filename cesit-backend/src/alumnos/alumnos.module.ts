@@ -4,14 +4,10 @@ import { AlumnosController } from './alumnos.controller';
 import { AuthModule } from 'src/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Alumno, AlumnoSchema } from './entities/alumno.entity';
-import { Materia, MateriaSchema } from '../materias/entities/materia.entity';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Alumno.name, schema: AlumnoSchema },
-      { name: Materia.name, schema: MateriaSchema },
-    ]),
+    MongooseModule.forFeature([{ name: Alumno.name, schema: AlumnoSchema }]),
     AuthModule,
   ],
   controllers: [AlumnosController],

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ProfesoresService } from './profesores.service';
 import { ProfesoresController } from './profesores.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Profesor, ProfesorSchema } from './entities/profesores.entity';
+import { Profesor, ProfesorSchema } from './entities/profesore.entity';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
@@ -11,7 +11,6 @@ import { AuthModule } from 'src/auth/auth.module';
     AuthModule,
   ],
   controllers: [ProfesoresController],
-  providers: [ProfesoresService],
-  exports: [ProfesoresService],
+  providers: [ProfesoresService]
 })
-export class ProfesoresModule {}
+export class ProfesoresModule { }

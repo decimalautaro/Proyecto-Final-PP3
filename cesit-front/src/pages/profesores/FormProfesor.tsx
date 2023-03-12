@@ -7,11 +7,12 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MyInputText from '../../components/form/MyInputText';
 import MyInputDate from '../../components/form/MyInputDate';
+import SeleccionarMateria from './components/seleccionarMateria';
 
 export interface IFormInputs {
   nombre: string;
   apellido: string;
-  dni: string;
+  dni: number;
   fechaNacimiento: Date;
 }
 
@@ -19,7 +20,7 @@ const schemaValidator = yup
   .object({
     nombre: yup.string().required('El nombre es requerido'),
     apellido: yup.string().required('El apellido es requerido'),
-    dni: yup.string().max(8, 'No puede ser mayor a 8 digitos').required('El número de DNI es requerido'),
+    dni: yup.number().required('El número de DNI es requerido'),
     fechaNacimiento: yup.date().required('La fecha de nacimiento es requerida'),
   })
   .required();
@@ -35,7 +36,7 @@ const FormProfesor: FC<FormProfesorProps> = ({ data, onSubmit }) => {
     control,
     handleSubmit,
   } = useForm<IFormInputs>({
-    defaultValues: data || {},
+    defaultValues: data || { fechaNacimiento: new Date() },
     resolver: yupResolver(schemaValidator),
   });
 
@@ -55,9 +56,9 @@ const FormProfesor: FC<FormProfesorProps> = ({ data, onSubmit }) => {
         <Grid item xs={12}>
           <MyInputDate name="fechaNacimiento" control={control} label="Fecha de Nacimiento" />
         </Grid>
-        {/* <Grid item xs={4}>
-          <SeleccionarMateria />
-        </Grid> */}
+        <Grid item xs={4}>
+          <SeleccionarMateria/>
+        </Grid>
         <Grid item xs={12}>
           <Stack direction="row" spacing={1}>
             <Button type="submit" variant="contained" >Guardar</Button>
@@ -71,7 +72,7 @@ const FormProfesor: FC<FormProfesorProps> = ({ data, onSubmit }) => {
 
       </Grid>
     </form>
-  );
+);
 };
 
 export default FormProfesor;

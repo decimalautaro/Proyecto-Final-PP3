@@ -1,4 +1,5 @@
 
+
 import {
   IsEnum,
   IsOptional,
@@ -15,11 +16,13 @@ export class FindAllPagintedDto extends PaginatedDto {
 
   @IsOptional()
   @MinLength(1)
-  apellido?: string;
+  carrera?: string;
+
 
   @IsOptional()
   @MinLength(1)
-  dni?: string;
+  bedelia?: string;
+
 
   @IsOptional()
   @MinLength(1)

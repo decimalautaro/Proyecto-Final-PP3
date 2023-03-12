@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "00dad750-8a54-4533-b282-e0e03300c7d4",
+		"_postman_id": "dbd0992f-2674-42c4-87ba-56a321ec183e",
 		"name": "CesitParaNewman",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20635018"
+		"_exporter_id": "19270942"
 	},
 	"item": [
 		{
@@ -635,2243 +635,6 @@
 			]
 		},
 		{
-			"name": "Alumnos",
-			"item": [
-				{
-					"name": "Errors",
-					"item": [
-						{
-							"name": "Get Alumno By Id with Error",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Alumno con codigo 404\", () => {",
-											"    pm.response.to.have.status(404);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/alumnos/{{alumnoIdError}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"alumnos",
-										"{{alumnoIdError}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update Alumno with Error",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Alumno con codigo 404\", () => {",
-											"    pm.response.to.have.status(404);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"Carlita\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"domicilio\": [{\"calle\":\"lala\",\r\n    \"numero\":\"123\",\r\n    \"localidad\":\"mendoza\",\r\n    \"provincia\": \"argentina\"}],\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/alumnos/{{alumnoIdError}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"alumnos",
-										"{{alumnoIdError}}"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"const mongoObjectId = function () {",
-									"    const timestamp = (new Date().getTime() / 1000 | 0).toString(16);",
-									"    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {",
-									"        return (Math.random() * 16 | 0).toString(16);",
-									"    }).toLowerCase();",
-									"};",
-									"",
-									"pm.environment.set(\"alumnoIdError\", mongoObjectId());",
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
-				},
-				{
-					"name": "Create Alumno",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Alumno creado con codigo 201\", () => {",
-									"    pm.response.to.have.status(201);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaAlumno\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									"",
-									"const jsonData = pm.response.json()",
-									"pm.environment.set(\"alumnoId\", jsonData._id);",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Marta\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"domicilio\": [{\"calle\":\"lala\",\r\n    \"numero\":\"123\",\r\n    \"localidad\":\"mendoza\",\r\n    \"provincia\": \"argentina\"}],\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/alumnos",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"alumnos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get alumnos",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Alumnos obtenidos con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaDelPaginador\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    ",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									"",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/alumnos/",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"alumnos",
-								""
-							],
-							"query": [
-								{
-									"key": "apellido",
-									"value": "perez",
-									"disabled": true
-								},
-								{
-									"key": "dni",
-									"value": "2",
-									"disabled": true
-								},
-								{
-									"key": "_type",
-									"value": "and",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Alumno By Id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Alumno obtenido con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaAlumno\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    ",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/alumnos/{{alumnoId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"alumnos",
-								"{{alumnoId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Alumno",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Alumno actualizado con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaAlumno\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Carlita\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"domicilio\": [{\"calle\":\"lala\",\r\n    \"numero\":\"123\",\r\n    \"localidad\":\"mendoza\",\r\n    \"provincia\": \"argentina\"}],\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/alumnos/{{alumnoId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"alumnos",
-								"{{alumnoId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Alumno",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Alumno eliminado con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"})",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/alumnos/{{alumnoId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"alumnos",
-								"{{alumnoId}}"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const schema = {",
-							"  type: 'object',",
-							"  additionalProperties: false,",
-							"  properties: {",
-							"    nombre: {",
-							"      type: 'string',",
-							"    },",
-							"    apellido: {",
-							"      type: 'string',",
-							"    },",
-							"    dni: {",
-							"      type: 'string',",
-							"    },",
-							"    domicilio: {",
-							"      type:  'array',",
-							"    },",
-							"    fechaNacimiento: {",
-							"      type: 'string',",
-							"    },",
-							"    _id: {",
-							"      type: 'string',",
-							"    },",
-							"    __v: {",
-							"      type: 'integer',",
-							"    },",
-							"    cursos: {",
-							"        type: 'array',",
-							"        default: [],",
-							"        properties: {",
-							"            anio: {",
-							"                type: 'integer',",
-							"            },",
-							"            condicion: {",
-							"                type: 'string',",
-							"            },",
-							"            nota: {",
-							"                type: 'integer',",
-							"            },",
-							"            presentismo: {",
-							"                type: 'integer',",
-							"            },",
-							"            materia: {",
-							"                type: 'object',",
-							"            }",
-							"        },",
-							"        items: {",
-							"            type: 'object',",
-							"            required: [",
-							"                'anio',",
-							"                'condicion',",
-							"                'nota',",
-							"                'presentismo',",
-							"                'materia'",
-							"            ],",
-							"        },",
-							"    },",
-							"  },",
-							"  required: [",
-							"    '__v',",
-							"    '_id',",
-							"    'apellido',",
-							"    'dni',",
-							"    'domicilio',",
-							"    'fechaNacimiento',",
-							"    'nombre',",
-							"  ],",
-							"}",
-							"",
-							"pm.environment.set(\"esquemaAlumno\", schema);",
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Materias",
-			"item": [
-				{
-					"name": "Errors",
-					"item": [
-						{
-							"name": "Update Materia with Error",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Materia con codigo 404\", () => {",
-											"    pm.response.to.have.status(404);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n\r\n    \"condicionMateria\": \"libre\"\r\n  \r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/materias/{{materiaIdError}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"materias",
-										"{{materiaIdError}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Materia By Id with Error",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Materia con codigo 404\", () => {",
-											"    pm.response.to.have.status(404);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/materias/{{materiaIdError}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"materias",
-										"{{materiaIdError}}"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"const mongoObjectId = function () {",
-									"    const timestamp = (new Date().getTime() / 1000 | 0).toString(16);",
-									"    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {",
-									"        return (Math.random() * 16 | 0).toString(16);",
-									"    }).toLowerCase();",
-									"};",
-									"",
-									"pm.environment.set(\"materiaIdError\", mongoObjectId());",
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
-				},
-				{
-					"name": "Create Materia",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Materia creada con codigo 201\", () => {",
-									"    pm.response.to.have.status(201);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaMateria\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									"",
-									"const jsonData = pm.response.json()",
-									"pm.environment.set(\"materiaId\", jsonData._id);",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"matematica\",\r\n    \"profesor\": \"63a245039e2973fc76e48103\",\r\n    \"duracion\": \"anual\",\r\n    \"condicionMateria\": \"regular\"\r\n  \r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/materias",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"materias"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get materias",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Materia obtenidas con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaDelPaginador\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    ",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									"",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/materias/",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"materias",
-								""
-							],
-							"query": [
-								{
-									"key": "nombre",
-									"value": "perez",
-									"disabled": true
-								},
-								{
-									"key": "profesor",
-									"value": "2",
-									"disabled": true
-								},
-								{
-									"key": "_type",
-									"value": "and",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Materia By Id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Materia obtenida con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaMateria\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    ",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/materias/{{materiaId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"materias",
-								"{{materiaId}}"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Get Materia By Id",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/materias/{{materiaId}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"materias",
-										"{{materiaId}}"
-									]
-								}
-							},
-							"_postman_previewlanguage": null,
-							"header": null,
-							"cookie": [],
-							"body": null
-						}
-					]
-				},
-				{
-					"name": "Update Materia",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Materia actualizada con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaMateria\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"ingles 2\",\r\n    \"profesor\": \"6399cf7652da81ae1ba9b4d3\",\r\n    \"duracion\": \"anual\",\r\n    \"condicionMateria\": \"regular\"\r\n  \r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/materias/{{materiaId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"materias",
-								"{{materiaId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Materia",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Alumno eliminado con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"})",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/materias/{{materiaId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"materias",
-								"{{materiaId}}"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const schema = {",
-							"  type: 'object',",
-							"  additionalProperties: false,",
-							"  properties: {",
-							"    nombre: {",
-							"      type: 'string',",
-							"    },",
-							"    profesor: {",
-							"      type: Object",
-							"    },",
-							"    duracion: {",
-							"      type: 'string',",
-							"    },",
-							"    condicionMateria: {",
-							"      type: 'string',",
-							"    },",
-							"    _id: {",
-							"      type: 'string',",
-							"    },",
-							"    __v: {",
-							"      type: 'integer',",
-							"    },",
-							"  },",
-							"  required: ['__v', '_id', 'condicionMateria', 'duracion', 'nombre', 'profesor'],",
-							"};",
-							"pm.environment.set(\"esquemaMateria\", schema);",
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Cursos",
-			"item": [
-				{
-					"name": "Errors",
-					"item": [
-						{
-							"name": "Get Curso By Id with Error",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso con codigo 404\", () => {",
-											"    pm.response.to.have.status(404);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos/{{cursoIdError}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos",
-										"{{cursoIdError}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update Curso with Error",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso con codigo 404\", () => {",
-											"    pm.response.to.have.status(404);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"anio\": 2021,\r\n    \"nota\": 9,\r\n    \"presentismo\": 99\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos/{{cursoIdError}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos",
-										"{{cursoIdError}}"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"const mongoObjectId = function () {",
-									"    const timestamp = (new Date().getTime() / 1000 | 0).toString(16);",
-									"    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {",
-									"        return (Math.random() * 16 | 0).toString(16);",
-									"    }).toLowerCase();",
-									"};",
-									"",
-									"pm.environment.set(\"cursoIdError\", mongoObjectId());",
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
-				},
-				{
-					"name": "Crear Curso",
-					"item": [
-						{
-							"name": "Create Materia",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Materia creada con codigo 201\", () => {",
-											"    pm.response.to.have.status(201);",
-											"    pm.response.to.be.withBody; // body tiene que exitir",
-											"    pm.response.to.be.json; // además que sea un JSON válido",
-											"})",
-											"",
-											"pm.test('Se valida el esquema', function() {",
-											"    const schema = pm.environment.get(\"esquemaMateria\");",
-											"    pm.expect(schema).to.be.an('object');",
-											"",
-											"    const jsonData = pm.response.json();",
-											"",
-											"    const Ajv = require(\"ajv\")",
-											"    const ajv = new Ajv({logger: console, allErrors: true});",
-											"",
-											"    const validate = ajv.validate(schema, jsonData);",
-											"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-											"});",
-											"",
-											"const jsonData = pm.response.json()",
-											"pm.environment.set(\"materiaId\", jsonData._id);",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"matematica\",\r\n    \"profesor\": \"63a245039e2973fc76e48103\",\r\n    \"duracion\": \"anual\",\r\n    \"condicionMateria\": \"regular\"\r\n  \r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/materias",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"materias"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Alumno",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Alumno creado con codigo 201\", () => {",
-											"    pm.response.to.have.status(201);",
-											"    pm.response.to.be.withBody; // body tiene que exitir",
-											"    pm.response.to.be.json; // además que sea un JSON válido",
-											"})",
-											"",
-											"pm.test('Se valida el esquema', function() {",
-											"    const schema = pm.environment.get(\"esquemaAlumno\");",
-											"    pm.expect(schema).to.be.an('object');",
-											"",
-											"    const jsonData = pm.response.json();",
-											"",
-											"    const Ajv = require(\"ajv\")",
-											"    const ajv = new Ajv({logger: console, allErrors: true});",
-											"",
-											"    const validate = ajv.validate(schema, jsonData);",
-											"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-											"});",
-											"",
-											"const jsonData = pm.response.json()",
-											"pm.environment.set(\"alumnoId\", jsonData._id);",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"nombre\": \"Marta\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"domicilio\": [{\"calle\":\"lala\",\r\n    \"numero\":\"123\",\r\n    \"localidad\":\"mendoza\",\r\n    \"provincia\": \"argentina\"}],\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/alumnos",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"alumnos"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Curso",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso creada con codigo 201\", () => {",
-											"    pm.response.to.have.status(201);",
-											"    pm.response.to.be.withBody; // body tiene que exitir",
-											"    pm.response.to.be.json; // además que sea un JSON válido",
-											"})",
-											"",
-											"pm.test('Se valida el esquema', function() {",
-											"    const schema = pm.environment.get(\"esquemaCursos\");",
-											"    pm.expect(schema).to.be.an('object');",
-											"",
-											"    const jsonData = pm.response.json();",
-											"",
-											"    const Ajv = require(\"ajv\")",
-											"    const ajv = new Ajv({logger: console, allErrors: true});",
-											"",
-											"    const validate = ajv.validate(schema, jsonData);",
-											"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-											"});",
-											"",
-											"const jsonData = pm.response.json()",
-											"pm.environment.set(\"cursoId\", jsonData._id);",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"anio\": 2021,\r\n    \"nota\": 9,\r\n    \"presentismo\": 99\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Curso con materia",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso creada con codigo 201\", () => {",
-											"    pm.response.to.have.status(201);",
-											"    pm.response.to.be.withBody; // body tiene que exitir",
-											"    pm.response.to.be.json; // además que sea un JSON válido",
-											"})",
-											"",
-											"pm.test('Se valida el esquema', function() {",
-											"    const schema = pm.environment.get(\"esquemaCursosAlCrearConRelacion\");",
-											"    pm.expect(schema).to.be.an('object');",
-											"",
-											"    const jsonData = pm.response.json();",
-											"",
-											"    const Ajv = require(\"ajv\")",
-											"    const ajv = new Ajv({logger: console, allErrors: true});",
-											"",
-											"    const validate = ajv.validate(schema, jsonData);",
-											"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-											"});",
-											"",
-											"const jsonData = pm.response.json()",
-											"pm.environment.set(\"cursoIdMateria\", jsonData._id);",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"anio\": 2021,\r\n    \"nota\": 9,\r\n    \"presentismo\": 99,\r\n    \"materia\": \"{{materiaId}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Curso By Id con materia",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso obtenida con codigo 200\", () => {",
-											"    pm.response.to.have.status(200);",
-											"    pm.response.to.be.withBody; // body tiene que exitir",
-											"    pm.response.to.be.json; // además que sea un JSON válido",
-											"})",
-											"",
-											"pm.test('Se valida el esquema', function() {",
-											"    const schema = pm.environment.get(\"esquemaCursos\");",
-											"    pm.expect(schema).to.be.an('object');",
-											"",
-											"    const jsonData = pm.response.json();",
-											"",
-											"    const Ajv = require(\"ajv\")",
-											"    const ajv = new Ajv({logger: console, allErrors: true});",
-											"",
-											"    const validate = ajv.validate(schema, jsonData);",
-											"    ",
-											"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-											"});",
-											"",
-											"pm.test('Se valida la materia relacionada', function() {",
-											"    const jsonData = pm.response.json();",
-											"    pm.expect(jsonData.materia).to.be.an('object');",
-											"",
-											"    const materiaId = pm.environment.get(\"materiaId\");",
-											"    pm.expect(jsonData.materia._id).to.be.eq(materiaId);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos/{{cursoIdMateria}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos",
-										"{{cursoIdMateria}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Curso con materia",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso eliminada con codigo 200\", () => {",
-											"    pm.response.to.have.status(200);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos/{{cursoIdMateria}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos",
-										"{{cursoIdMateria}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Curso con alumno",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso creada con codigo 201\", () => {",
-											"    pm.response.to.have.status(201);",
-											"    pm.response.to.be.withBody; // body tiene que exitir",
-											"    pm.response.to.be.json; // además que sea un JSON válido",
-											"})",
-											"",
-											"pm.test('Se valida el esquema', function() {",
-											"    const schema = pm.environment.get(\"esquemaCursosAlCrearConRelacion\");",
-											"    pm.expect(schema).to.be.an('object');",
-											"",
-											"    const jsonData = pm.response.json();",
-											"",
-											"    const Ajv = require(\"ajv\")",
-											"    const ajv = new Ajv({logger: console, allErrors: true});",
-											"",
-											"    const validate = ajv.validate(schema, jsonData);",
-											"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-											"});",
-											"",
-											"const jsonData = pm.response.json()",
-											"pm.environment.set(\"cursoIdAlumno\", jsonData._id);",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"anio\": 2021,\r\n    \"nota\": 9,\r\n    \"presentismo\": 99,\r\n    \"alumno\": \"{{alumnoId}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Curso By Id con alumno",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso obtenida con codigo 200\", () => {",
-											"    pm.response.to.have.status(200);",
-											"    pm.response.to.be.withBody; // body tiene que exitir",
-											"    pm.response.to.be.json; // además que sea un JSON válido",
-											"})",
-											"",
-											"pm.test('Se valida el esquema', function() {",
-											"    const schema = pm.environment.get(\"esquemaCursos\");",
-											"    pm.expect(schema).to.be.an('object');",
-											"",
-											"    const jsonData = pm.response.json();",
-											"",
-											"    const Ajv = require(\"ajv\")",
-											"    const ajv = new Ajv({logger: console, allErrors: true});",
-											"",
-											"    const validate = ajv.validate(schema, jsonData);",
-											"    ",
-											"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-											"});",
-											"",
-											"pm.test('Se valida el alumno relacionado', function() {",
-											"    const jsonData = pm.response.json();",
-											"    pm.expect(jsonData.alumno).to.be.an('object');",
-											"",
-											"    const alumnoId = pm.environment.get(\"alumnoId\");",
-											"    pm.expect(jsonData.alumno._id).to.be.eq(alumnoId);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos/{{cursoIdAlumno}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos",
-										"{{cursoIdAlumno}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Curso con alumno",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso eliminada con codigo 200\", () => {",
-											"    pm.response.to.have.status(200);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos/{{cursoIdAlumno}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos",
-										"{{cursoIdAlumno}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Curso con materia y alumno",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso creada con codigo 201\", () => {",
-											"    pm.response.to.have.status(201);",
-											"    pm.response.to.be.withBody; // body tiene que exitir",
-											"    pm.response.to.be.json; // además que sea un JSON válido",
-											"})",
-											"",
-											"pm.test('Se valida el esquema', function() {",
-											"    const schema = pm.environment.get(\"esquemaCursosAlCrearConRelacion\");",
-											"    pm.expect(schema).to.be.an('object');",
-											"",
-											"    const jsonData = pm.response.json();",
-											"",
-											"    const Ajv = require(\"ajv\")",
-											"    const ajv = new Ajv({logger: console, allErrors: true});",
-											"",
-											"    const validate = ajv.validate(schema, jsonData);",
-											"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-											"});",
-											"",
-											"const jsonData = pm.response.json()",
-											"pm.environment.set(\"cursoIdMateriaAlumno\", jsonData._id);",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"anio\": 2021,\r\n    \"nota\": 9,\r\n    \"presentismo\": 99,\r\n    \"materia\": \"{{materiaId}}\",\r\n    \"alumno\": \"{{alumnoId}}\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Curso By Id con materia y alumno",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso obtenida con codigo 200\", () => {",
-											"    pm.response.to.have.status(200);",
-											"    pm.response.to.be.withBody; // body tiene que exitir",
-											"    pm.response.to.be.json; // además que sea un JSON válido",
-											"})",
-											"",
-											"pm.test('Se valida el esquema', function() {",
-											"    const schema = pm.environment.get(\"esquemaCursos\");",
-											"    pm.expect(schema).to.be.an('object');",
-											"",
-											"    const jsonData = pm.response.json();",
-											"",
-											"    const Ajv = require(\"ajv\")",
-											"    const ajv = new Ajv({logger: console, allErrors: true});",
-											"",
-											"    const validate = ajv.validate(schema, jsonData);",
-											"    ",
-											"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-											"});",
-											"",
-											"pm.test('Se valida la materia relacionada', function() {",
-											"    const jsonData = pm.response.json();",
-											"    pm.expect(jsonData.materia).to.be.an('object');",
-											"",
-											"    const materiaId = pm.environment.get(\"materiaId\");",
-											"    pm.expect(jsonData.materia._id).to.be.eq(materiaId);",
-											"});",
-											"",
-											"pm.test('Se valida el alumno relacionado', function() {",
-											"    const jsonData = pm.response.json();",
-											"    pm.expect(jsonData.alumno).to.be.an('object');",
-											"",
-											"    const alumnoId = pm.environment.get(\"alumnoId\");",
-											"    pm.expect(jsonData.alumno._id).to.be.eq(alumnoId);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos/{{cursoIdMateriaAlumno}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos",
-										"{{cursoIdMateriaAlumno}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Curso con materia y alumno",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Curso eliminada con codigo 200\", () => {",
-											"    pm.response.to.have.status(200);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/cursos/{{cursoIdMateriaAlumno}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"cursos",
-										"{{cursoIdMateriaAlumno}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Alumno",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Alumno eliminado con codigo 200\", () => {",
-											"    pm.response.to.have.status(200);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/alumnos/{{alumnoId}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"alumnos",
-										"{{alumnoId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete Materia",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Alumno eliminado con codigo 200\", () => {",
-											"    pm.response.to.have.status(200);",
-											"})",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/materias/{{materiaId}}",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"materias",
-										"{{materiaId}}"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"const schema = {",
-									"  type: 'object',",
-									"  additionalProperties: false,",
-									"  properties: {",
-									"    anio: {",
-									"      type: 'integer',",
-									"    },",
-									"    condicion: {",
-									"      type: 'string',",
-									"    },",
-									"    nota: {",
-									"      type: 'integer',",
-									"    },",
-									"    presentismo: {",
-									"      type: 'integer',",
-									"    },",
-									"    alumno: {",
-									"      type: 'string',",
-									"    },",
-									"    materia: {",
-									"      type: 'string',",
-									"    },",
-									"    _id: {",
-									"      type: 'string',",
-									"    },",
-									"    __v: {",
-									"      type: 'integer',",
-									"    },",
-									"  },",
-									"  required: ['__v', '_id', 'anio', 'condicion', 'nota', 'presentismo'],",
-									"};",
-									"",
-									"pm.environment.set(\"esquemaCursosAlCrearConRelacion\", schema);",
-									""
-								]
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					]
-				},
-				{
-					"name": "Get cursos",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Cursos obtenidas con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaDelPaginador\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    ",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									"",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/cursos/",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"cursos",
-								""
-							],
-							"query": [
-								{
-									"key": "bedelia",
-									"value": "mercedes",
-									"disabled": true
-								},
-								{
-									"key": "carrera",
-									"value": "desa",
-									"disabled": true
-								},
-								{
-									"key": "_type",
-									"value": "and",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Curso By Id",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Curso obtenida con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaCursos\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    ",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/cursos/{{cursoId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"cursos",
-								"{{cursoId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Curso",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Curso actualizada con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"    pm.response.to.be.withBody; // body tiene que exitir",
-									"    pm.response.to.be.json; // además que sea un JSON válido",
-									"})",
-									"",
-									"pm.test('Se valida el esquema', function() {",
-									"    const schema = pm.environment.get(\"esquemaCursos\");",
-									"    pm.expect(schema).to.be.an('object');",
-									"",
-									"    const jsonData = pm.response.json();",
-									"",
-									"    const Ajv = require(\"ajv\")",
-									"    const ajv = new Ajv({logger: console, allErrors: true});",
-									"",
-									"    const validate = ajv.validate(schema, jsonData);",
-									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"anio\": 2021,\r\n    \"nota\": 9,\r\n    \"presentismo\": 99\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/cursos/{{cursoId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"cursos",
-								"{{cursoId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Curso",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Curso eliminada con codigo 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"})",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/cursos/{{cursoId}}",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"cursos",
-								"{{cursoId}}"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"const schema = {",
-							"  type: 'object',",
-							"  additionalProperties: false,",
-							"  properties: {",
-							"    anio: {",
-							"      type: 'integer',",
-							"    },",
-							"    condicion: {",
-							"      type: 'string',",
-							"    },",
-							"    nota: {",
-							"      type: 'integer',",
-							"    },",
-							"    presentismo: {",
-							"      type: 'integer',",
-							"    },",
-							"    alumno: {",
-							"      type: 'object',",
-							"    },",
-							"    materia: {",
-							"      type: 'object',",
-							"    },",
-							"    _id: {",
-							"      type: 'string',",
-							"    },",
-							"    __v: {",
-							"      type: 'integer',",
-							"    },",
-							"  },",
-							"  required: ['__v', '_id', 'anio', 'condicion', 'nota', 'presentismo'],",
-							"};",
-							"pm.environment.set(\"esquemaCursos\", schema);",
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
 			"name": "Carreras",
 			"item": [
 				{
@@ -3330,6 +1093,470 @@
 			]
 		},
 		{
+			"name": "Cursos",
+			"item": [
+				{
+					"name": "Errors",
+					"item": [
+						{
+							"name": "Get Curso By Id with Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Curso con codigo 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/cursos/{{cursoIdError}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cursos",
+										"{{cursoIdError}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Curso with Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Curso con codigo 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"anio\": 2020,\r\n    \"cantidadAlumnos\": 32,\r\n    \"carrera\": \"desarrollo de software\",\r\n    \"bedelia\": \"mercedes lopez\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/cursos/{{cursoIdError}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"cursos",
+										"{{cursoIdError}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const mongoObjectId = function () {",
+									"    const timestamp = (new Date().getTime() / 1000 | 0).toString(16);",
+									"    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {",
+									"        return (Math.random() * 16 | 0).toString(16);",
+									"    }).toLowerCase();",
+									"};",
+									"",
+									"pm.environment.set(\"cursoIdError\", mongoObjectId());",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create Curso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Curso creada con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaCursos\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"const jsonData = pm.response.json()",
+									"pm.environment.set(\"cursoId\", jsonData._id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"anio\": 2020,\r\n    \"cantidadAlumnos\": 32,\r\n    \"carrera\": \"analisis\",\r\n    \"bedelia\": \"mercedes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get cursos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Cursos obtenidas con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaDelPaginador\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos",
+								""
+							],
+							"query": [
+								{
+									"key": "bedelia",
+									"value": "mercedes",
+									"disabled": true
+								},
+								{
+									"key": "carrera",
+									"value": "desa",
+									"disabled": true
+								},
+								{
+									"key": "_type",
+									"value": "and",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Curso By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Curso obtenida con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaCursos\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos/{{cursoId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos",
+								"{{cursoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Curso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Curso actualizada con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaCursos\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"anio\": 2020,\r\n    \"cantidadAlumnos\": 32,\r\n    \"carrera\": \"desarrollo de software\",\r\n    \"bedelia\": \"mercedes lopez\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos/{{cursoId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos",
+								"{{cursoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Curso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Curso eliminada con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos/{{cursoId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos",
+								"{{cursoId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const schema = {",
+							"  type: 'object',",
+							"  additionalProperties: false,",
+							"  properties: {",
+							"    anio: {",
+							"      type: 'integer',",
+							"    },",
+							"    cantidadAlumnos: {",
+							"      type: 'integer',",
+							"    },",
+							"    carrera: {",
+							"      type: 'string',",
+							"    },",
+							"    bedelia: {",
+							"      type: 'string',",
+							"    },",
+							"    _id: {",
+							"      type: 'string',",
+							"    },",
+							"    __v: {",
+							"      type: 'integer',",
+							"    },",
+							"  },",
+							"  required: ['__v', '_id', 'anio', 'bedelia', 'cantidadAlumnos', 'carrera'],",
+							"};",
+							"pm.environment.set(\"esquemaCursos\", schema);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
 			"name": "Profesores",
 			"item": [
 				{
@@ -3489,7 +1716,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Marta\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"Marta\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"edad\": 32\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3684,7 +1911,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"Andrea\",\r\n    \"apellido\": \"cataneo\",\r\n    \"dni\": \"2222222\",\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
+							"raw": "{\r\n    \"nombre\": \"Andrea\",\r\n    \"apellido\": \"cataneo\",\r\n    \"dni\": \"2222222\",\r\n    \"edad\": 32\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3765,8 +1992,8 @@
 							"    dni: {",
 							"      type: 'string',",
 							"    },",
-							"    fechaNacimiento: {",
-							"      type: Date,",
+							"    edad: {",
+							"      type: 'integer',",
 							"    },",
 							"    _id: {",
 							"      type: 'string',",
@@ -3775,9 +2002,948 @@
 							"      type: 'integer',",
 							"    },",
 							"  },",
-							"  required: ['__v', '_id', 'apellido', 'dni', 'fechaNacimiento', 'nombre'],",
+							"  required: ['__v', '_id', 'apellido', 'dni', 'edad', 'nombre'],",
 							"};",
 							"pm.environment.set(\"esquemaProfesores\", schema);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Alumnos",
+			"item": [
+				{
+					"name": "Errors",
+					"item": [
+						{
+							"name": "Get Alumno By Id with Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Alumno con codigo 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/alumnos/{{alumnoIdError}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"alumnos",
+										"{{alumnoIdError}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Alumno with Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Alumno con codigo 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"Carlita\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"domicilio\": [{\"calle\":\"lala\",\r\n    \"numero\":\"123\",\r\n    \"localidad\":\"mendoza\",\r\n    \"provincia\": \"argentina\"}],\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/alumnos/{{alumnoIdError}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"alumnos",
+										"{{alumnoIdError}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const mongoObjectId = function () {",
+									"    const timestamp = (new Date().getTime() / 1000 | 0).toString(16);",
+									"    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {",
+									"        return (Math.random() * 16 | 0).toString(16);",
+									"    }).toLowerCase();",
+									"};",
+									"",
+									"pm.environment.set(\"alumnoIdError\", mongoObjectId());",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create Alumno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumno creado con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaAlumno\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"const jsonData = pm.response.json()",
+									"pm.environment.set(\"alumnoId\", jsonData._id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Marta\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"domicilio\": [{\"calle\":\"lala\",\r\n    \"numero\":\"123\",\r\n    \"localidad\":\"mendoza\",\r\n    \"provincia\": \"argentina\"}],\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get alumnos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumnos obtenidos con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaDelPaginador\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos",
+								""
+							],
+							"query": [
+								{
+									"key": "apellido",
+									"value": "perez",
+									"disabled": true
+								},
+								{
+									"key": "dni",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "_type",
+									"value": "and",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Alumno By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumno obtenido con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaAlumno\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos/{{alumnoId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos",
+								"{{alumnoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Alumno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumno actualizado con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaAlumno\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Carlita\",\r\n    \"apellido\": \"perez\",\r\n    \"dni\": \"2222222\",\r\n    \"domicilio\": [{\"calle\":\"lala\",\r\n    \"numero\":\"123\",\r\n    \"localidad\":\"mendoza\",\r\n    \"provincia\": \"argentina\"}],\r\n    \"fechaNacimiento\": \"Fri Sep 16 2022 23:38:24 GMT-0300 (Argentina Standard Time)\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos/{{alumnoId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos",
+								"{{alumnoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Alumno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumno eliminado con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/alumnos/{{alumnoId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"alumnos",
+								"{{alumnoId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const schema = {",
+							"  type: 'object',",
+							"  additionalProperties: false,",
+							"  properties: {",
+							"    nombre: {",
+							"      type: 'string',",
+							"    },",
+							"    apellido: {",
+							"      type: 'string',",
+							"    },",
+							"    dni: {",
+							"      type: 'string',",
+							"    },",
+							"    domicilio: {",
+							"      type:  'array',",
+							"    },",
+							"    fechaNacimiento: {",
+							"      type: 'string',",
+							"    },",
+							"    _id: {",
+							"      type: 'string',",
+							"    },",
+							"    __v: {",
+							"      type: 'integer',",
+							"    },",
+							"  },",
+							"  required: [",
+							"    '__v',",
+							"    '_id',",
+							"    'apellido',",
+							"    'dni',",
+							"    'domicilio',",
+							"    'fechaNacimiento',",
+							"    'nombre',",
+							"  ],",
+							"};",
+							"pm.environment.set(\"esquemaAlumno\", schema);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Materias",
+			"item": [
+				{
+					"name": "Errors",
+					"item": [
+						{
+							"name": "Update Materia with Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Materia con codigo 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n    \"condicionMateria\": \"libre\"\r\n  \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/materias/{{materiaIdError}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"materias",
+										"{{materiaIdError}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Materia By Id with Error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Materia con codigo 404\", () => {",
+											"    pm.response.to.have.status(404);",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/materias/{{materiaIdError}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"materias",
+										"{{materiaIdError}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const mongoObjectId = function () {",
+									"    const timestamp = (new Date().getTime() / 1000 | 0).toString(16);",
+									"    return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {",
+									"        return (Math.random() * 16 | 0).toString(16);",
+									"    }).toLowerCase();",
+									"};",
+									"",
+									"pm.environment.set(\"materiaIdError\", mongoObjectId());",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Create Materia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Materia creada con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaMateria\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"const jsonData = pm.response.json()",
+									"pm.environment.set(\"materiaId\", jsonData._id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"matematica\",\r\n    \"profesor\": \"perez\",\r\n    \"duracion\": \"anual\",\r\n    \"condicionMateria\": \"regular\"\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get materias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Materia obtenidas con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaDelPaginador\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias",
+								""
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "perez",
+									"disabled": true
+								},
+								{
+									"key": "profesor",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "_type",
+									"value": "and",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Materia By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Materia obtenida con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaMateria\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    ",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias/{{materiaId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias",
+								"{{materiaId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Materia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Materia actualizada con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.environment.get(\"esquemaMateria\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"condicionMateria\": \"libre\"\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias/{{materiaId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias",
+								"{{materiaId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Materia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Alumno eliminado con codigo 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/materias/{{materiaId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"materias",
+								"{{materiaId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const schema = {",
+							"  type: 'object',",
+							"  additionalProperties: false,",
+							"  properties: {",
+							"    nombre: {",
+							"      type: 'string',",
+							"    },",
+							"    profesor: {",
+							"      type: 'string',",
+							"    },",
+							"    duracion: {",
+							"      type: 'string',",
+							"    },",
+							"    condicionMateria: {",
+							"      type: 'string',",
+							"    },",
+							"    _id: {",
+							"      type: 'string',",
+							"    },",
+							"    __v: {",
+							"      type: 'integer',",
+							"    },",
+							"  },",
+							"  required: ['__v', '_id', 'condicionMateria', 'duracion', 'nombre', 'profesor'],",
+							"};",
+							"pm.environment.set(\"esquemaMateria\", schema);",
 							""
 						]
 					}

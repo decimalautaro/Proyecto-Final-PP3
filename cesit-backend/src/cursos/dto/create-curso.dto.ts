@@ -1,26 +1,21 @@
-import { IsInt, IsString, IsMongoId, IsOptional } from 'class-validator';
-import { CondicionValida } from '../entities/curso.enums';
+
+import { IsInt, IsString, MinLength } from "class-validator";
 
 export class CreateCursoDto {
-  @IsInt()
-  anio: number;
 
-  @IsInt()
-  nota = 0;
+    @IsInt()
+    anio: number;
 
-  @IsInt()
-  presentismo = 0;
+    @IsInt()
+    cantidadAlumnos: number;
 
-  @IsString()
-  condicion: CondicionValida = CondicionValida.NoAplica;
+    @IsString()
+    @MinLength(1)
+    carrera: string;
 
-  @IsOptional()
-  @IsString()
-  @IsMongoId()
-  alumno?: string;
+    @IsString()
+    @MinLength(1)
+    bedelia: string;
 
-  @IsOptional()
-  @IsString()
-  @IsMongoId()
-  materia?: string;
+
 }

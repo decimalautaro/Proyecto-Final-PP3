@@ -11,7 +11,7 @@ import type { RootState } from '../store/store';
 
 interface ProfesoresState {
   profesores: Profesor[];
-  offset: number;
+  skip: number;
   limit: number;
   cantidadPaginas: number;
   profesorSeleccionado: Profesor | null;
@@ -22,7 +22,7 @@ interface ProfesoresState {
 
 const initialState: ProfesoresState = {
   profesores: [],
-  offset: 0,
+  skip: 0,
   limit: 10,
   cantidadPaginas: 0,
   profesorSeleccionado: null,
@@ -57,7 +57,7 @@ export const profesoresSlice = createSlice({
       buscarProfesores.fulfilled,
       (state, { payload }: PayloadAction<PaginatedResponse<Profesor>>) => {
         state.profesores = payload.data || [];
-        state.offset = Math.round(payload.offset / payload.limit) + 1;
+        state.skip = Math.round(payload.offset / payload.limit) + 1;
         state.cantidadPaginas = Math.round(payload.total / payload.limit);
         state.limit = payload.limit;
         state.cargando = false;
@@ -118,7 +118,7 @@ export const { setCargando, limpiarProfesores, setCriterio } =
 export default profesoresSlice.reducer;
 interface BuscarProfesoresQuery {
   limit: number;
-  offset: number;
+  skip: number;
 }
 export const buscarProfesores = createAsyncThunk<
   PaginatedResponse<Profesor>,
@@ -130,10 +130,10 @@ export const buscarProfesores = createAsyncThunk<
     try {
       const state = thunkApi.getState() as RootState;
       let criterio = state.profesor.criterio || ({} as Record<string, string>);
-      if (params?.limit && params?.offset) {
+      if (params?.limit && params?.skip) {
         criterio = { ...criterio, limit: params.limit.toString() };
-        const offsetLimit = (params.offset - 1) * params.limit;
-        criterio = { ...criterio, offset: offsetLimit.toString() };
+        const skipLimit = (params.skip - 1) * params.limit;
+        criterio = { ...criterio, skip: skipLimit.toString() };
       }
 
       let profesoresRes: PaginatedResponse<Profesor>;

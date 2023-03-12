@@ -20,7 +20,7 @@ const BuscarProfesores: FC = () => {
 
   const { control, handleSubmit, formState, reset } = useForm<IFormBuscar>({
     defaultValues: {
-      tipo: 'nombre',
+      tipo: '_todos',
     },
   });
 
@@ -41,12 +41,14 @@ const BuscarProfesores: FC = () => {
   const options: DropdownOption[] = [
     { label: 'Nombre', value: 'nombre' },
     { label: 'Apellido', value: 'apellido' },
-    { label: 'DNI', value: 'dni' },
-    // { label: 'Edad', value: 'edad'},
+    // { label: 'DNI', value: 'dni'},
+    // { label: 'Fecha de Nacimiento', value: 'fechaNacimiento'},
+    { label: 'Todo', value: '_todos' },
   ];
 
   return (
     <Box>
+      <Typography>Buscar por</Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box display="flex" gap={1}>
           <MyDropdown
