@@ -6,13 +6,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { isValidObjectId, Model } from 'mongoose';
+import mongoose, { isValidObjectId, Model } from 'mongoose';
 import PaginatedResponseDto from 'src/common/dtos/paginated-response.dto';
 import { randomIntFromInterval } from 'src/common/utils/numbers.utils';
 import { CreateAlumnoDto } from './dto/create-alumno.dto';
 import { FindAllPagintedDto } from './dto/find-all-paginated.dto';
 import { UpdateAlumnoDto } from './dto/update-alumno.dto';
 import { Alumno } from './entities/alumno.entity';
+import { Materia } from '../materias/entities/materia.entity';
+import { alumnoGetAll, alumnoGetOne } from './entities/almno.interface';
 
 function getQueryParam(key: string, value: string) {
   return { [key]: { $regex: new RegExp(value, 'i') } };
@@ -22,6 +24,7 @@ function getQueryParam(key: string, value: string) {
 export class AlumnosService {
   constructor(
     @InjectModel(Alumno.name) private alumnoRepository: Model<Alumno>,
+    @InjectModel(Materia.name) private materiaRepository: Model<Materia>,
   ) {}
   create(createAlumnoDto: CreateAlumnoDto) {
     return this.alumnoRepository.create(createAlumnoDto);
@@ -38,29 +41,96 @@ export class AlumnosService {
     });
 
     const findQuery = query.length > 0 ? { [`$${_type}`]: query } : {};
-    const alumnos = await this.alumnoRepository
-      .find(findQuery)
+    const alumnos = (await this.alumnoRepository
+      .aggregate([
+        {
+          $match: findQuery,
+        },
+        {
+          $lookup: {
+            from: 'cursos',
+            localField: '_id',
+            foreignField: 'alumno',
+            as: 'cursos',
+          },
+        },
+        {
+          $lookup: {
+            from: 'materias',
+            localField: 'cursos.materia',
+            foreignField: '_id',
+            as: 'materias',
+          },
+        },
+      ])
+      .project({
+        cursos: {
+          _id: false,
+          alumno: false,
+          materia: false,
+          __v: false,
+        },
+        materias: {
+          _id: false,
+          __v: false,
+        },
+      })
       .limit(limit)
-      .skip(offset);
+      .skip(offset)) as alumnoGetAll[];
     const count = await this.alumnoRepository.count(findQuery);
-    return new PaginatedResponseDto<Alumno>(alumnos, offset, limit, count);
+    return new PaginatedResponseDto<alumnoGetAll>(alumnos, offset, limit, count);
   }
 
   async findById(id: string) {
-    let alumno: Alumno;
+    let alumno;
 
     if (isValidObjectId(id)) {
-      alumno = await this.alumnoRepository.findById(id);
+      alumno = await this.alumnoRepository
+        .aggregate([
+          {
+            $match: {
+              _id: new mongoose.Types.ObjectId(id),
+            },
+          },
+          {
+            $lookup: {
+              from: 'cursos',
+              localField: '_id',
+              foreignField: 'alumno',
+              as: 'cursos',
+            },
+          },
+        ])
+        .project({
+          cursos: {
+            _id: false,
+            alumno: false,
+            __v: false,
+          },
+        });
     }
 
-    if (!alumno)
+    const alumnoBuscado = alumno[0] as alumnoGetOne;
+
+    if (!alumnoBuscado)
       throw new NotFoundException(`No se puede encontrar el alumno id=${id}`);
 
-    return alumno;
+    for (const curso of alumnoBuscado.cursos) {
+      // const materia_id = curso.materia.toJSON();
+      const materia_id = curso.materia;
+      if (materia_id) {
+        curso.materia = await this.materiaRepository.findById(materia_id);
+      }
+    }
+
+    return alumnoBuscado;
   }
 
   async update(id: string, updateAlumnoDto: UpdateAlumnoDto) {
-    const alumno = await this.findById(id);
+    const alumno = await this.alumnoRepository.findById(id);
+    if (!alumno)
+      throw new NotFoundException(`No se puede encontrar el alumno id=${id}`);
+
     try {
       await alumno.updateOne(updateAlumnoDto);
       return { ...alumno.toJSON(), ...updateAlumnoDto };

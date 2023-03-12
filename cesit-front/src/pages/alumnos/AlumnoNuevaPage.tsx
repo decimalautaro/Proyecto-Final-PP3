@@ -7,10 +7,9 @@ const AlumnoNuevaPage = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: IFormInputs) => {
-
     try {
-      const alumno = await crearAlumnoService(data);
-      navigate(`/alumnos/${alumno._id}/ver`);
+      await crearAlumnoService(data);
+      navigate('/alumnos');
     } catch (error) {
       console.error(error);
     }

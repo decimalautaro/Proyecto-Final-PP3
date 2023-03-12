@@ -1,26 +1,16 @@
 import {
+  Alert,
   Button,
   LinearProgress,
+  Pagination,
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
-  Link as MuiLink,
-  Alert,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Stack,
-  Pagination
 } from '@mui/material';
-import CreateIcon from '@mui/icons-material/Create';
-import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box } from '@mui/system';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -28,20 +18,23 @@ import {
   buscarMaterias,
   eliminarMateriaPorId,
   limpiarMaterias,
-  setCriterio
 } from '../../slices/materiasSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { DropdownOption } from '../../components/form/MyDropdown';
-import BuscarMaterias from './components/BuscarMaterias'
+import BuscarMaterias from './components/BuscarMaterias';
+import {
+  TableDeleteBtn,
+  TableEditBtn,
+  TableShowBtn,
+} from '../../components/table/TableButtons';
+import ConfirmationModal from '../../components/modals/ConfirmationModal';
+import TitulosApp from '../../components/TitulosApp';
 
-
-const MateriaPage = () => {
+const MateriasPage = () => {
   const dispatch = useAppDispatch();
   const [mostrarDialogo, setMostrarDialogo] = useState(false);
   const materiaId = useRef<string>();
-  const { cargando, materias, mensajeError, offset, limit, cantidadPaginas } = useAppSelector(
-    (state) => state.materia
-  );
+  const { cargando, materias, mensajeError, cantidadPaginas, offset, limit } =
+    useAppSelector((state) => state.materia);
 
   const navigate = useNavigate();
 
@@ -55,26 +48,27 @@ const MateriaPage = () => {
     };
   }, []);
 
-
-  const handlePaginationOnChange = (ev: ChangeEvent<unknown>, offset: number) => {
+  const handlePaginationOnChange = (
+    ev: ChangeEvent<unknown>,
+    offset: number
+  ) => {
     dispatch(buscarMaterias({ offset, limit }));
-  }
+  };
 
   return (
-    <Box>
-      <Typography variant="h3">Listando Materias</Typography>
-      <br />
-      <Button
-        variant="contained"
-        size="small"
-        onClick={() => navigate('/materias/nuevo')}
-        fullWidth
-      >
-        Nueva Materia
-      </Button>
+    <Box display="flex" flexDirection="column" gap={3} padding={2}>
+      <TitulosApp title="Listando Materias">
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => navigate('/materias/nuevo')}
+          fullWidth
+        >
+          Nueva Materia
+        </Button>
+      </TitulosApp>
 
       <BuscarMaterias />
-
 
       {mensajeError && (
         <Box marginTop={2}>
@@ -96,10 +90,10 @@ const MateriaPage = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Nombre</TableCell>
-                    <TableCell align="right">Profesor</TableCell>
-                    <TableCell align="right">Duracion</TableCell>
-                    <TableCell align="right">Condicion Materia</TableCell>
-                    <TableCell align="center">Acción</TableCell>
+                    <TableCell align="center">Profesor</TableCell>
+                    <TableCell align="center">Duracion</TableCell>
+                    <TableCell align="center">Condicion Materia</TableCell>
+                    <TableCell align="right">Acciones</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -111,22 +105,26 @@ const MateriaPage = () => {
                       <TableCell component="th" scope="row">
                         {materia.nombre}
                       </TableCell>
-                      <TableCell align="right">{materia.profesor}</TableCell>
-                      <TableCell align="right">{materia.duracion}</TableCell>
-                      <TableCell align="right">{materia.condicionMateria}</TableCell>
                       <TableCell align="center">
-                        <Button onClick={() => navigate(`/materias/${materia._id}/ver`)} ><VisibilityIcon /></Button>
-
-                        <Button onClick={() => navigate(`/materias/${materia._id}/editar`)}><CreateIcon /></Button >
-
-                        <MuiLink
+                        {materia.profesor.nombre + " " + materia.profesor.apellido}
+                      </TableCell>
+                      <TableCell align="center">
+                        {materia.duracion}
+                      </TableCell>
+                      <TableCell align="center">{materia.condicionMateria}</TableCell>
+                      <TableCell align="right">
+                        <TableShowBtn
+                          onClick={() => navigate(`/materias/${materia._id}/ver`)}
+                        />
+                        <TableEditBtn
+                          onClick={() => navigate(`/materias/${materia._id}/editar`)}
+                        />
+                        <TableDeleteBtn
                           onClick={() => {
                             materiaId.current = materia._id;
                             setMostrarDialogo(true);
                           }}
-                        >
-                          <Button><DeleteIcon /></Button>
-                        </MuiLink>
+                        />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -137,7 +135,8 @@ const MateriaPage = () => {
             <Stack spacing={2} width="100%" alignItems="center">
               <Pagination
                 count={cantidadPaginas}
-                page={offset} siblingCount={2}
+                page={offset}
+                siblingCount={2}
                 onChange={handlePaginationOnChange}
                 variant="outlined"
                 color="primary"
@@ -147,33 +146,18 @@ const MateriaPage = () => {
         )
       )}
 
-      <Dialog
+      <ConfirmationModal
         open={mostrarDialogo}
+        message="Está seguro que desea eliminar la materia seleccionada."
         onClose={() => setMostrarDialogo(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{'Eliminar materia?'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Está seguro que desea eliminar el materia seleccionado.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setMostrarDialogo(false)}>No</Button>
-          <Button
-            onClick={() => {
-              dispatch(eliminarMateriaPorId(materiaId.current || ''));
-              setMostrarDialogo(false);
-            }}
-            autoFocus
-          >
-            Si
-          </Button>
-        </DialogActions>
-      </Dialog>
+        onNo={() => setMostrarDialogo(false)}
+        onYes={() => {
+          dispatch(eliminarMateriaPorId(materiaId.current || ''));
+          setMostrarDialogo(false);
+        }}
+      />
     </Box>
   );
 };
 
-export default MateriaPage;
+export default MateriasPage;

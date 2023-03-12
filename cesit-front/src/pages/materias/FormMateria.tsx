@@ -1,16 +1,20 @@
-import { Button, Grid, MenuItem, Stack, TextField } from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
+import { Button, Grid, Stack } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { FC } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { FC, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MyInputText from '../../components/form/MyInputText';
 import MyDropdown, { DropdownOption } from '../../components/form/MyDropdown';
+import { Profesor } from '../../models/Profesor';
+import { buscarProfesores } from '../../slices/profesoresSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+
 
 export interface IFormInputs {
   nombre: string;
-  profesor: string;
+  profesor: Profesor | string;
   duracion: string;
   condicionMateria: string;
 }
@@ -30,16 +34,27 @@ interface FormMateriaProps {
   data?: IFormInputs;
   onSubmit: (data: IFormInputs) => void;
 }
-
 const FormMaterias: FC<FormMateriaProps> = ({ data, onSubmit }) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<IFormInputs>({
-    defaultValues: data || {},
+    defaultValues: {
+      nombre: data?.nombre,
+      profesor: ((data?.profesor || {}) as Profesor)._id,
+      duracion: data?.duracion,
+      condicionMateria: data?.condicionMateria
+    } || {} as Profesor,
     resolver: yupResolver(schemaValidator),
   });
+
+  const dispatch = useAppDispatch();
+  const { profesores } = useAppSelector((state) => state.profesor)
+
+  useEffect(() => {
+    dispatch(buscarProfesores({ limit: 100, offset: 0 }));
+  }, []);
 
   const navigate = useNavigate();
 
@@ -55,14 +70,18 @@ const FormMaterias: FC<FormMateriaProps> = ({ data, onSubmit }) => {
     { value: 'semestral', label: 'Semestral' },
   ];
 
+  const profesor: DropdownOption[] = []
+
+  profesores.map((prof) => {
+    const objeto: any = { value: prof._id, label: prof.nombre + " " + prof.apellido }
+    profesor.push(objeto)
+  })
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <MyInputText name="nombre" control={control} label="Nombre" />
-        </Grid>
-        <Grid item xs={12}>
-          <MyInputText name="profesor" control={control} label="Profesor" />
         </Grid>
         <Grid item xs={12}>
           <MyDropdown
@@ -80,10 +99,19 @@ const FormMaterias: FC<FormMateriaProps> = ({ data, onSubmit }) => {
             label="Condicion Materia"
           />
         </Grid>
-
+        <Grid item xs={12}>
+          <MyDropdown
+            name="profesor"
+            control={control}
+            options={profesor}
+            label="Profesor"
+          />
+        </Grid>
         <Grid item xs={12}>
           <Stack direction="row" spacing={1}>
-            <Button type="submit" variant="contained">
+            <Button
+              type="submit"
+              variant="contained">
               Guardar
             </Button>
             <Button
