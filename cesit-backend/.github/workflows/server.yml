@@ -1,0 +1,80 @@
+
+name: Server
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-postman:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+    - name: Make envfile
+      uses: SpicyPizza/create-envfile@v1.3
+      with:
+        envkey_DB_CONN: mongodb://database:27017
+        envkey_PORT: 5005
+        envkey_JWT_SECRET: afasdjflkjasdlj12jqwe8912354123.,m--12asdf
+        directory: ./
+        file_name: .env
+    
+    - name: Build the stack
+      run: |
+        docker-compose -f docker-compose.yml up -d --build
+    
+    - name: Waiting for the server to start
+      run: |
+        /bin/bash .github/workflows/verifyServer.sh localhost 5005
+    
+    - name: View logs
+      run: |
+        docker-compose logs server
+
+    - name: Run Postman Collection
+      uses: matt-ball/newman-action@master
+      with:
+        collection: ./postman/CesitParaNewman.postman_collection.json
+        environment: ./postman/cesit.postman_environment.json
+        reporters: '["cli", "json"]'
+
+  linter:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v14.3
+      with:
+        files: |
+          src/**/*.ts
+    
+    - name: List all modified files
+      run: |
+        for file in ${{ steps.changed-files.outputs.all_modified_files }}; do
+          echo "$file was modified"
+        done
+
+    - name: Install ESLint
+      run: |
+        npm install eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-config-prettier eslint-plugin-prettier
+    
+    - name: view files
+      run: |
+        ls -al
+    
+    - name: Run ESLint
+      run: |
+        for file in ${{ steps.changed-files.outputs.all_modified_files }}; do
+            ./node_modules/.bin/eslint -c .eslintrc.js $file
+        done
