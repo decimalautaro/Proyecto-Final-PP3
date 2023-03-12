@@ -149,4 +149,3 @@ const ProfesoresPage = () => {
 };
 
 export default ProfesoresPage;
-

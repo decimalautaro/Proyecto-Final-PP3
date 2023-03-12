@@ -75,4 +75,3 @@ const BuscarProfesores: FC = () => {
 };
 
 export default BuscarProfesores;
-

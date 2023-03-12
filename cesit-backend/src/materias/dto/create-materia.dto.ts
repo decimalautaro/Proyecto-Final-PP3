@@ -1,5 +1,5 @@
 import { IsIn, IsMongoId, IsString, MinLength } from 'class-validator';
-import { Profesor } from 'src/profesores/entities/profesores.entity';
+import { Profesor } from 'src/profesores/entities/profesore.entity';
 
 export class CreateMateriaDto {
   @IsString()

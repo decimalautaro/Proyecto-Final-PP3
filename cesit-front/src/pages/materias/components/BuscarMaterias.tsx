@@ -51,7 +51,6 @@ const BuscarMaterias: FC = () => {
 
     const options: DropdownOption[] = [
         { label: 'Nombre', value: 'nombre' },
-        { label: 'Profesor', value: 'profesor' },
         { label: 'Duracion', value: 'duracion' },
         { label: 'Condicion Materia', value: 'condicionMateria' },
         //   { label: 'Todo', value: '_todos' }

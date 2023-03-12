@@ -26,6 +26,7 @@ const MateriasEditarPage = () => {
     const actualizandoMateria = async (data: IFormInputs) => {
         try {
             if (!id) return;
+            //@ts-ignore
             await actualizarMateriaService(id, data);
             navigate('/materias');
         } catch (error) {

@@ -1,13 +1,12 @@
-import { Box, Button, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { Box, Grid, Stack, Typography } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import CustomLabelItem from '../../components/CustomLabelItem';
 import { buscarMateriaPorId } from '../../slices/materiasSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+
+import LinkLabelItem from '../../components/LinkLabelItem';
+import { TableEditBtn } from '../../components/table/TableButtons';
 
 const MateriasVerPage: FC = () => {
     const { id } = useParams();
@@ -26,53 +25,39 @@ const MateriasVerPage: FC = () => {
         return <div>Materia no econtrada</div>;
     }
 
+    const nombreProfesor = materiaSeleccionada.profesor.nombre + " " + materiaSeleccionada.profesor.apellido;
+
     return (
-        <Box>
+        <Box display="flex" flexDirection="column" gap={3} padding={2}>
             <Typography variant="h3">Visualizando Materia</Typography>
+            <Stack direction="row" spacing={5}>
+                <Link to="/materias">Volver</Link>
+                <TableEditBtn onClick={() => navigate(`/materias/${materiaSeleccionada._id}/editar`)} />
+            </Stack >
+            <Grid container spacing={2}>
 
-            <Grid item xs={12} md={6}>
-                <List >
-                    <ListItem>
-                        <ListItemIcon>
-                            <LibraryBooksIcon />
-                        </ListItemIcon>
+                <CustomLabelItem
+                    label="Nombre"
+                    value={materiaSeleccionada.nombre}
+                />
 
-                        <CustomLabelItem label="Nombre " value={materiaSeleccionada.nombre} />
+                <LinkLabelItem
+                    label='Profesor'
+                    value={nombreProfesor}
+                    onClick={() => navigate(`/profesores/${materiaSeleccionada.profesor._id}/ver`)}
+                />
 
-                    </ListItem>
-                    <ListItem>
-                        <ListItemIcon>
-                            <AccountCircleIcon />
-                        </ListItemIcon>
+                <CustomLabelItem
+                    label="Duracion"
+                    value={materiaSeleccionada.duracion}
+                />
 
-                        <CustomLabelItem label="Profesor" value={materiaSeleccionada.profesor} />
+                <CustomLabelItem
+                    label="Condicion Materia"
+                    value={materiaSeleccionada.condicionMateria}
+                />
 
-                    </ListItem>
-                    <ListItem>
-                        <ListItemIcon>
-                            <AccessTimeIcon />
-                        </ListItemIcon>
-
-                        <CustomLabelItem label="Duracion" value={materiaSeleccionada.duracion} />
-
-                    </ListItem>
-                    <ListItem>
-                        <ListItemIcon>
-                            <FormatListBulletedIcon />
-                        </ListItemIcon>
-
-                        <CustomLabelItem label="Condicion Materia" value={materiaSeleccionada.condicionMateria} />
-
-                    </ListItem>
-                </List>
             </Grid>
-            <Button
-                variant="outlined"
-                color="error"
-                onClick={() => navigate('/materias')}
-            >
-                Vovler
-            </Button>
         </Box >
     );
 };

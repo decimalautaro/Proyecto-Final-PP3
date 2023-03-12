@@ -12,7 +12,7 @@ import { randomIntFromInterval } from 'src/common/utils/numbers.utils';
 import { CreateProfesorDto } from './dto/create-profesor.dto';
 import { FindAllPagintedDto } from './dto/find-all-paginated.dto';
 import { UpdateProfesorDto } from './dto/update-profesore.dto';
-import { Profesor } from './entities/profesores.entity';
+import { Profesor } from './entities/profesore.entity';
 
 function getQueryParam(key: string, value: string) {
   return { [key]: { $regex: new RegExp(value, 'i') } };

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
-import { Profesor } from '../../profesores/entities/profesores.entity';
+import { Profesor } from 'src/profesores/entities/profesore.entity';
 
 @Schema()
 export class Materia extends Document {

@@ -1,5 +1,5 @@
 import { IsEnum, IsObject, IsOptional, MinLength } from 'class-validator';
-import { Profesor } from 'src/profesores/entities/profesores.entity';
+import { Profesor } from 'src/profesores/entities/profesore.entity';
 import { PaginatedDto } from '../../common/dtos/paginated.dto';
 
 enum TypeEnum {
