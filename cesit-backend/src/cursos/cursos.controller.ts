@@ -13,7 +13,7 @@ import {
 import { CursosService } from './cursos.service';
 import { CreateCursoDto } from './dto/create-curso.dto';
 import { UpdateCursoDto } from './dto/update-curso.dto';
-import { FindAllPagintedDto } from './dto/find-all-paginated.dto';
+import { FindAllPagintedDto } from './dto/find-all-cursos.dto';
 import { Auth } from 'src/auth/decorators';
 
 @Controller()

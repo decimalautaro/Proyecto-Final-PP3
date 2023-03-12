@@ -710,6 +710,7 @@
 									"",
 									"var jsonData = pm.response.json()",
 									"pm.collectionVariables.set(\"token\", jsonData.token);",
+									"pm.environment.set(\"token\", jsonData.token);",
 									"",
 									""
 								],
@@ -1748,13 +1749,13 @@
 							],
 							"query": [
 								{
-									"key": "bedelia",
-									"value": "mercedes",
+									"key": "condicion",
+									"value": "No aplica",
 									"disabled": true
 								},
 								{
-									"key": "carrera",
-									"value": "desa",
+									"key": "anio",
+									"value": "2022",
 									"disabled": true
 								},
 								{
@@ -1815,13 +1816,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/cursos/6340d8aef502fc1f5a8594a5",
+							"raw": "{{url}}/cursos/635d4fd53987b1e58e1230b6",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"cursos",
-								"6340d8aef502fc1f5a8594a5"
+								"635d4fd53987b1e58e1230b6"
 							]
 						}
 					},
@@ -1863,7 +1864,62 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"anio\": 2020,\r\n    \"cantidadAlumnos\": 32,\r\n    \"carrera\": \"analisis\",\r\n    \"bedelia\": \"mercedes\"\r\n}",
+							"raw": "{\r\n    \"anio\": 2021,\r\n    \"nota\": 9,\r\n    \"presentismo\": 99\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/cursos",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"cursos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Curso con relaciones",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Curso creada con codigo 201\", () => {",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody; // body tiene que exitir",
+									"    pm.response.to.be.json; // además que sea un JSON válido",
+									"})",
+									"",
+									"pm.test('Se valida el esquema', function() {",
+									"    const schema = pm.variables.get(\"esquemaCursos\");",
+									"    pm.expect(schema).to.be.an('object');",
+									"",
+									"    const jsonData = pm.response.json();",
+									"",
+									"    const Ajv = require(\"ajv\")",
+									"    const ajv = new Ajv({logger: console, allErrors: true});",
+									"",
+									"    const validate = ajv.validate(schema, jsonData);",
+									"    pm.expect(validate, JSON.stringify(ajv.errors)).to.be.true;",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"anio\": 2021,\r\n    \"nota\": 9,\r\n    \"presentismo\": 99,\r\n    \"alumno\": \"635dea50361d13e2d326176b\",\r\n    \"materia\": \"635dea58361d13e2d326176e\"\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1918,7 +1974,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"anio\": 2020,\r\n    \"cantidadAlumnos\": 32,\r\n    \"carrera\": \"desarrollo de software\",\r\n    \"bedelia\": \"mercedes lopez\"\r\n}",
+							"raw": "{\r\n    \"anio\": 2020,\r\n    \"cantidadAlumnos\": 32,\r\n    \"carrera\": \"analisis\",\r\n    \"bedelia\": \"mercedes\",\r\n    \"alumno\": \"635d4f3186a4860ec9677daa\"\r\n    \"materia\": \"635dbd90ed04a89c9c10547f\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1926,13 +1982,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/cursos/6340d893f502fc1f5a8594a2",
+							"raw": "{{url}}/cursos/635d4fd53987b1e58e1230b6",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"cursos",
-								"6340d893f502fc1f5a8594a2"
+								"635d4fd53987b1e58e1230b6"
 							]
 						}
 					},

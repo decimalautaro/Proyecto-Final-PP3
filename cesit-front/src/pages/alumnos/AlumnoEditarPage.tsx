@@ -29,7 +29,7 @@ const AlumnoEditarPage = () => {
     try {
       if (!id) return;
       await actualizarAlumnoService(id, data);
-      navigate(`/alumnos/${id}/ver`);
+      navigate('/alumnos');
     } catch (error) {
       console.error(error);
     }

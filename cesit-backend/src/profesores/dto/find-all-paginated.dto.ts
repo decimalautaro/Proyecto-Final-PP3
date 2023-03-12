@@ -1,9 +1,4 @@
-
-import {
-  IsEnum,
-  IsOptional,
-  MinLength,
-} from 'class-validator';
+import { IsEnum, IsOptional, MinLength } from 'class-validator';
 import { PaginatedDto } from '../../common/dtos/paginated.dto';
 
 enum TypeEnum {
@@ -12,10 +7,13 @@ enum TypeEnum {
 }
 
 export class FindAllPagintedDto extends PaginatedDto {
-
   @IsOptional()
   @MinLength(1)
   apellido?: string;
+
+  @IsOptional()
+  @MinLength(1)
+  nombre?: string;
 
   @IsOptional()
   @MinLength(1)

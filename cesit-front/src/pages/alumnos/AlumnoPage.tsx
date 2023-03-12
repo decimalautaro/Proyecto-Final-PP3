@@ -1,6 +1,5 @@
 import {
   Alert,
-  Box,
   Button,
   LinearProgress,
   Pagination,
@@ -13,8 +12,9 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import { Box } from '@mui/system';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import {
   buscarAlumnos,
   eliminarAlumnoPorId,
@@ -70,7 +70,7 @@ const AlumnoPage = () => {
           </Alert>
         </Box>
       )}
-
+      
       {cargando ? (
         <Box marginTop={2}>
           <LinearProgress color="secondary" />
@@ -78,58 +78,55 @@ const AlumnoPage = () => {
       ) : (
         !mensajeError && (
           <>
-            <TableContainer>
-              <Table size='medium' aria-label="a dense table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Nombre</TableCell>
-                    <TableCell align="center">Apellido</TableCell>
-                    <TableCell align="center">DNI</TableCell>
-                    <TableCell align="center">Direccion</TableCell>
-                    <TableCell align="center">Fecha de nacimiento</TableCell>
-                    <TableCell align="center">Acción</TableCell>
+          <TableContainer>
+            <Table size="small" aria-label="a dense table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Nombre</TableCell>
+                  <TableCell align="center">Apellido</TableCell>
+                  <TableCell align="center">DNI</TableCell>
+                  <TableCell align="center">Direccion</TableCell>
+                  <TableCell align="center">Fecha de nacimiento</TableCell>
+                  <TableCell align="center">Acción</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {alumnos.map((alumno) => (
+                  <TableRow
+                    key={alumno._id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {alumno.nombre}
+                    </TableCell>
+                    <TableCell align="center">{alumno.apellido}</TableCell>
+                    <TableCell align="center">{alumno.dni}</TableCell>
+                    <TableCell align="center">{alumno.domicilio}</TableCell>
+                    <TableCell align="center">
+                      {alumno.fechaNacimiento ? format(new Date(alumno.fechaNacimiento), DATE_FORMAT) : ''}
+                    </TableCell>
+                    <TableCell align="right">
+                          <TableShowBtn onClick={() => navigate(`/alumnos/${alumno._id}/ver`)} />
+                          <TableEditBtn onClick={() => navigate(`/alumnos/${alumno._id}/editar`)} />
+                          <TableDeleteBtn onClick={() => {
+                            alumnoId.current = alumno._id;
+                            setMostrarDialogo(true);
+                          }} />
+                      </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {alumnos.map((alumno) => (
-                    <TableRow
-                      key={alumno._id}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {alumno.nombre}
-                      </TableCell>
-                      <TableCell align="center">{alumno.apellido}</TableCell>
-                      <TableCell align="center">{alumno.dni}</TableCell>
-                      <TableCell align="left"> {alumno.domicilio.map((domicilio, i) => (
-                        <Box > {i + 1}. {domicilio.calle} {domicilio.numero} {domicilio.localidad} {domicilio.provincia} {(domicilio.referencia) ? `(${domicilio.referencia})` : ""}</Box>
-                      ))}
-                      </TableCell>
-                      <TableCell align="center">
-                        {alumno.fechaNacimiento ? format(new Date(alumno.fechaNacimiento), DATE_FORMAT) : ''}
-                      </TableCell>
-                      <TableCell align="justify" padding='none'>
-                        <TableShowBtn onClick={() => navigate(`/alumnos/${alumno._id}/ver`)} />
-                        <TableEditBtn onClick={() => navigate(`/alumnos/${alumno._id}/editar`)} />
-                        <TableDeleteBtn onClick={() => {
-                          alumnoId.current = alumno._id;
-                          setMostrarDialogo(true);
-                        }} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-            <Stack spacing={2} width="100%" alignItems="center">
+          <Stack spacing={2} width="100%" alignItems="center">
               <Pagination count={cantidadPaginas} page={offset} siblingCount={2} onChange={handlePaginationOnChange} variant="outlined" color="primary" />
             </Stack>
           </>
         )
       )}
 
-      <ConfirmationModal
+<ConfirmationModal
         open={mostrarDialogo}
         message="Está seguro que desea eliminar la tarea seleccionada."
         onClose={() => setMostrarDialogo(false)}
@@ -139,7 +136,7 @@ const AlumnoPage = () => {
           setMostrarDialogo(false);
         }}
       />
-    </Box >
+    </Box>
   );
 };
 

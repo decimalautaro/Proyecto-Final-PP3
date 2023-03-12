@@ -1,10 +1,8 @@
-import { IDomicilio } from "./Domicilio";
-
-export interface Alumno {
+export interface  Alumno {
     _id?: string;
     nombre: string;
     apellido: string;
     dni: string;
-    domicilio: IDomicilio[];
+    domicilio: string;
     fechaNacimiento: Date | undefined;
 }

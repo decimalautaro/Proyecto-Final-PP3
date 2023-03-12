@@ -66,10 +66,16 @@ export const actualizarProfesorService = async (
   id: string,
   data: Partial<Profesor>
 ) => {
+  const body = {
+    nombre: data.nombre,
+    apellido: data.apellido,
+    dni: data.dni,
+    fechaNacimiento: data.fechaNacimiento
+  }
   try {
-    const res = await axios.put<Profesor>(
+    const res = await axios.patch<Profesor>(
       `http://localhost:5005/api/profesores/${id}`,
-      data
+      body
     );
     return res.data;
   } catch (error) {
