@@ -28,7 +28,7 @@ export class ProfesoresService {
   }
 
   async findAll(findAllDto: FindAllPagintedDto) {
-    const { limit = 10, offset = 0, _type = 'or' } = findAllDto;
+    const { limit = 5, offset = 0, _type = 'or' } = findAllDto;
 
     const query = [];
     ['apellido', 'nombre', 'dni'].forEach((key) => {
