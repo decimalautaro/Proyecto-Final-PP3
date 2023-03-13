@@ -35,7 +35,7 @@ export class MateriasService {
   }
 
   async findAll(findAllDto: FindAllPagintedDto) {
-    const { limit = 10, offset = 0, _type = 'or' } = findAllDto;
+    const { limit = 5, offset = 0, _type = 'or' } = findAllDto;
 
     const query = [];
     ['nombre', 'profesor', 'duracion', 'condicionMateria'].forEach((key) => {
