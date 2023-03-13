@@ -37,7 +37,7 @@ const MateriasEditarPage = () => {
 
     return (
         <Box>
-            <Typography variant="h3">Editar Tarea</Typography>
+            <Typography variant="h3">Editar Materia</Typography>
             <FormMateria data={materiaSeleccionada} onSubmit={actualizandoMateria} />
         </Box>
     );
